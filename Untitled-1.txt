@@ -1,0 +1,18 @@
+sp := saml.ServiceProviderSettings{
+		IDPSSOURL:                   "https://letznav-sso.auth0.com/samlp/uvjp5d2ARaArIMFfJQU47DGNsIVakqoi",
+		IDPSSODescriptorURL:         "https://letznav-sso.auth0.com/samlp/uvjp5d2ARaArIMFfJQU47DGNsIVakqoi",
+		IDPPublicCertPath:           "./lol.crt",
+		AssertionConsumerServiceURL: "http://localhost:8080/api/public/auth/saml2-authorized",
+		SPSignRequest:               false,
+	}
+	err := sp.Init()
+	if err != nil {
+		panic(err)
+	}
+	authnRequest := sp.GetAuthnRequest()
+	lol, _ := authnRequest.String()
+	url, err := saml.GetAuthnRequestURL(sp.IDPSSOURL, lol, "")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(url)
