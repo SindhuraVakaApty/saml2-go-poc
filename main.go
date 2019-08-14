@@ -79,6 +79,7 @@ func main() {
 
 		assertionInfo, err := sp.RetrieveAssertionInfo(req.FormValue("SAMLResponse"))
 		if err != nil {
+			fmt.Println("sasas", err)
 			rw.WriteHeader(http.StatusForbidden)
 			return
 		}
@@ -94,6 +95,7 @@ func main() {
 		// 	return
 		// }
 		fmt.Fprintf(rw, assertionInfo.Values.Get("nameID"))
+		fmt.Println("sasas", req.FormValue("RelayState"))
 	})
 
 	println("Visit this URL To Authenticate:")
