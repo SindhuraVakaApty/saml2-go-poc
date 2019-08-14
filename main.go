@@ -57,17 +57,16 @@ func main() {
 
 	// We sign the AuthnRequest with a random key because Okta doesn't seem
 	// to verify these.
-	randomKeyStore := dsig.RandomKeyStoreForTest()
+	// randomKeyStore := dsig.RandomKeyStoreForTest()
 
 	sp := &saml2.SAMLServiceProvider{
 		IdentityProviderSSOURL:      metadata.IDPSSODescriptor.SingleSignOnServices[0].Location,
 		IdentityProviderIssuer:      metadata.EntityID,
 		ServiceProviderIssuer:       "http://localhost:8080",
 		AssertionConsumerServiceURL: "http://localhost:8080/v1/_saml_callback",
-		SignAuthnRequests:           true,
+		SignAuthnRequests:           false,
 		AudienceURI:                 "http://localhost:8080",
 		IDPCertificateStore:         &certStore,
-		SPKeyStore:                  randomKeyStore,
 	}
 
 	http.HandleFunc("/v1/_saml_callback", func(rw http.ResponseWriter, req *http.Request) {
